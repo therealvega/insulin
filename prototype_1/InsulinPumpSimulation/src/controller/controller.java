@@ -14,32 +14,47 @@ public class controller {
 	public static void main(String[] args) {
 		
 		
-		//*****Patient
-		Patient p = new Patient();
-		final PumpFrame f = new PumpFrame();
+		/**
+		 * References to Application Objects
+		 */
+		Clock myClock = new Clock();
+		
+		Patient myPatient = new Patient();
+		
+		final PumpFrame myPumpFrame = new PumpFrame();
 		
 		
 
-		//***** GUI *****
+		/**
+		 * JFrame for displaying the insulin pump
+		 */
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					f.setVisible(true);
+					myPumpFrame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-		//***************
-		
-		//***** testThread
-		Clock c = new Clock(p, f);
 
-		Thread t1 = new Thread(c);
+		
+		/**
+		 * Managing the Observations
+		 */
+		myClock.addObserver(myPatient);
+		
+		myPatient.addObserver(myPumpFrame);
+		
+		myPumpFrame.setObservedPatient(myPatient);
+		
+		
+		
+		/**
+		 * Main Thread
+		 */
+		Thread t1 = new Thread(myClock);
 		t1.start();
-		
-
-		
 		
 	}
 

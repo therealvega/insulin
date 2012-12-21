@@ -1,29 +1,49 @@
 package model;
 
-public class Patient {
+import java.util.Observable;
+import java.util.Observer;
+
+public class Patient extends Observable implements Observer{
+	
+	/**
+	 * value for storing the actual Blood glucose level
+	 */
 	private int bloodGlucoseLevel;
 		
+	/**
+	 * Constructor
+	 */
 	public Patient(){
 		bloodGlucoseLevel = 111;
 	}
 	
-	//returns the bloodGlucoseLevel as Integer
+	/**
+	 * getter for bloodGlucoseLevel
+	 */
 	public int getBloodGlucoseLevel(){
 		return bloodGlucoseLevel;
 	}
 	
-	public void setBloodGlucoseLevel(int x){
-		bloodGlucoseLevel=x;
+	/**
+	 * setter for bloodGlucoseLevel
+	 */
+	public void setBloodGlucoseLevel(int value){
+		bloodGlucoseLevel=value;
 	}
 	
-	//Receive Pulse from Clock object
-	public void recievePulse(){
-		this.update();
-	}
-	
-	// Operations that are caused by pulse
-	public void update(){
+	/**
+	 * Update Function which is called by the Clock
+	 */
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		
 		this.setBloodGlucoseLevel( this.getBloodGlucoseLevel() + 1 );
+
+		
+      	this.setChanged();
+      	this.notifyObservers();
+      	this.clearChanged();
+		
 	}
 	
 			
